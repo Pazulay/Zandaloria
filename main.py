@@ -78,7 +78,7 @@ def titlescreen():
 def startgame():
     print('Hello Adventurer. Welcome to Zandaloria')
     print('\n')
-    time.sleep(2.0)
+    time.sleep(1.0)
     print('What is your name?')
     print('\n')
     playername = input('> ')
@@ -113,8 +113,13 @@ def griffonroad():
     if playeroptions == '1':
         zandaloria()
     elif playeroptions == '2':
-        # fork1()
-        fight()
+        dice = random.randrange(1, 3)
+        if dice == 2:
+            fork1()
+        else:
+            print('You have been spotted by a hostile slime. You initiate a fight!')
+            time.sleep(1.5)
+            slimefight()
     else:
         print(f'"{playeroptions}" is not an option. Please choose one of the listed options.')
         time.sleep(2.0)
@@ -134,12 +139,12 @@ def exitgame():
     print('Thanks for playing.')
     sys.exit()
 
-def fight():
+def slimefight():
     os.system('cls')
     print(f'{player1.name}                             {testslime.name}')
     print(f'HP: {player1.hp}/{player1.maxhp}                      HP:{testslime.hp}/{testslime.maxhp}')
 
-    def fightoptions():
+    def fightoptionsslime():
         print('[1] Attack')
         print('[2] Items')
         print('[3] Run')
@@ -153,12 +158,30 @@ def fight():
                 print(f'You receive {testslime.golddrop} gold!')
                 time.sleep(2.0)
                 griffonroad()
-            time.sleep(1.0)
             print(f'{testslime.name} attacks you!')
-            player1.hp -= testslime.attackdmg
-            time.sleep(2.0)
-            fight()
-    fightoptions()
+            dice = random.randrange(1, 6)
+            if dice >= 3:
+                player1.hp -= testslime.attackdmg
+                print(f'{testslime.name} does {testslime.attackdmg} damage to you!')
+                time.sleep(2.0)
+                slimefight()
+            else:
+                print(f'{testslime.name} missed his attack!')
+                time.sleep(2.0)
+                slimefight()
+        elif playeroptions == '2':
+            print(f'These are your available items: {player1.items}')
+            print('What item do you want to use?')
+            playeroptions2 = input('> ')
+            if playeroptions2.lower() == 'potion' and playeroptions2 in player1.items:
+                print('You healed yourself by 10 HP')
+                player1.hp += 10
+                if player1.hp > player1.maxhp:
+                    player1.hp = 100
+                time.sleep(2.0)
+                fightoptionsslime()
+
+    fightoptionsslime()
 
 
 
