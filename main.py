@@ -9,6 +9,14 @@ import os
 import random
 
 
+#locations
+zanda = False
+griffonrd = False
+
+#treasures
+treasuregriffonrd = True
+
+
 class Player:
     def __init__(self, name):
         self.name = name
@@ -16,7 +24,7 @@ class Player:
         self.hp = self.maxhp
         self.items = ['potion']
         self.weapons = []
-        self.currentWeap = 'wood sword'
+        self.currentWeap = 'Wood Sword'
         self.gold = 10
         self.baseattack = 10
 
@@ -44,14 +52,6 @@ class troll:
 class skeleton:
     def __init__(self):
         pass
-
-
-#tresures
-
-def treasure1():
-    pass
-
-
 
 def titlescreen():
     os.system('cls')
@@ -88,6 +88,8 @@ def startgame():
 
 def zandaloria():
     os.system('cls')
+    global zanda
+    zanda = True
     print('You are in Zandaloria')
     print('You can either go to the left or to the right.')
     print('Where do you want to go? (Type the option number)')
@@ -95,8 +97,10 @@ def zandaloria():
     print('[2] Right Path (Dalton Road)')
     playeroptions = input('> ')
     if playeroptions == '1':
+        zanda = False
         griffonroad()
     elif playeroptions == '2':
+        zanda = False
         daltonroad()
     else:
         print(f'"{playeroptions}" is not an option. Choose one of the options listed.')
@@ -105,29 +109,70 @@ def zandaloria():
 
 def griffonroad():
     os.system('cls')
+    global griffonrd
+    griffonrd = True
     print('You are now in Griffon Road')
     print('What do you want to do? Type one of the options')
     print('[1] Go back to Zandaloria')
     print('[2] Continue on the path.')
     playeroptions = input('> ')
     if playeroptions == '1':
+        griffonrd = False
         zandaloria()
     elif playeroptions == '2':
-        dice = random.randrange(1, 3)
-        if dice == 2:
+        dice = random.randrange(1, 10)
+        if dice <= 6:
+            treasure()
             fork1()
         else:
             print('You have been spotted by a hostile slime. You initiate a fight!')
             time.sleep(1.5)
-            slimefight()
+            fight()
     else:
         print(f'"{playeroptions}" is not an option. Please choose one of the listed options.')
         time.sleep(2.0)
         griffonroad()
 
 
-def treasure1():
+def items():
     pass
+
+def character():
+    os.system('cls')
+    print(player1.name)
+    print(f'HP{player1.hp}/{player1.maxhp}')
+    print(f'Equiped Weapon: {player1.currentWeap}')
+    print(f'ATK: {player1.baseattack}')
+    print(f'Gold {player1.gold}')
+    print(f'Items: {player1.items}')
+    print(f'Weapons: {player1.weapons}')
+    print('[1] Go Back')
+    print('[2] Change Weapon')
+    print('[3] Use Item')
+    playeroptions = input('> ')
+    if playeroptions == '1':
+        if zanda == True:
+            zandaloria()
+        elif griffonrd == True:
+            griffonroad()
+    elif playeroptions == '2':
+        print('Type the name of the weapon you want to equip.')
+        playeroptions2 = input('> ')
+        if playeroptions2.lower() in player1.weapons:
+            player1.weapons.append(player1.currentWeap)
+            player1.currentWeap = playeroptions2.lower()
+    elif playeroptions == '3':
+        pass
+
+def treasure():
+    global treasuregriffonrd
+    if treasuregriffonrd and griffonrd == True:
+        treasuregriffonrd = False
+        print('You have found a Treasure Chest!')
+        time.sleep(1.5)
+        print('You open the Chest and receive an Iron Sword!')
+        player1.weapons.append('Iron Sword')
+        fork1()
 
 def fork1():
     pass
@@ -139,12 +184,12 @@ def exitgame():
     print('Thanks for playing.')
     sys.exit()
 
-def slimefight():
+def fight():
     os.system('cls')
     print(f'{player1.name}                             {testslime.name}')
     print(f'HP: {player1.hp}/{player1.maxhp}                      HP:{testslime.hp}/{testslime.maxhp}')
 
-    def fightoptionsslime():
+    def fightoptions():
         print('[1] Attack')
         print('[2] Items')
         print('[3] Run')
@@ -157,18 +202,21 @@ def slimefight():
                 player1.gold += testslime.golddrop
                 print(f'You receive {testslime.golddrop} gold!')
                 time.sleep(2.0)
-                griffonroad()
+                if zanda == True:
+                    zandaloria()
+                elif griffonrd == True:
+                    griffonroad()
             print(f'{testslime.name} attacks you!')
             dice = random.randrange(1, 6)
             if dice >= 3:
                 player1.hp -= testslime.attackdmg
                 print(f'{testslime.name} does {testslime.attackdmg} damage to you!')
                 time.sleep(2.0)
-                slimefight()
+                fight()
             else:
                 print(f'{testslime.name} missed his attack!')
                 time.sleep(2.0)
-                slimefight()
+                fight()
         elif playeroptions == '2':
             print(f'These are your available items: {player1.items}')
             print('What item do you want to use?')
@@ -176,12 +224,21 @@ def slimefight():
             if playeroptions2.lower() == 'potion' and playeroptions2 in player1.items:
                 print('You healed yourself by 10 HP')
                 player1.hp += 10
+                player1.items.remove('potion')
                 if player1.hp > player1.maxhp:
                     player1.hp = 100
                 time.sleep(2.0)
-                fightoptionsslime()
+                fight()
+        elif playeroptions == '3':
+            print('You have escaped successfully!')
+            time.sleep(1.5)
+            if zanda == True:
+                zandaloria()
+            elif griffonrd == True:
+                griffonroad()
 
-    fightoptionsslime()
+
+    fightoptions()
 
 
 
