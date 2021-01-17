@@ -9,17 +9,23 @@ import os
 import random
 
 
-#locations
+#locationsbool
 zanda = False
 griffonrd = False
 fork1standing = False
+alpac = False
+coaststanding = False
+volcan = False
+dalton = False
+fork2standing = False
+drkforest = False
+abandonedcstl = False
+
 
 #treasures
 treasuregriffonrd = True
 
-# #weapons
-# woodsw = True
-# ironsw = False
+
 
 
 class Player:
@@ -96,6 +102,8 @@ def startgame():
     player1 = Player(playername)
     zandaloria()
 
+#locations
+
 def zandaloria():
     os.system('cls')
     global zanda
@@ -154,11 +162,11 @@ def fork1():
     global fork1standing
     fork1standing = True
     print('You have arrived at a fork')
-    print('The left path leads tow the volcanoes.')
+    print('The left path leads to the Alpaca Mountains.')
     print('The right path leads to the coast.')
     print('What do you want to do? Type one of the options')
     print('[1] Go back to Griffon Road')
-    print('[2] Go to the volcanoes.')
+    print('[2] Go to the Alpaca Mountains.')
     print('[3] Go to the Coast')
     print('[4] View Character')
     playeroptions = input('> ')
@@ -166,7 +174,7 @@ def fork1():
         fork1standing = False
         griffonroad()
     elif playeroptions == '2':
-        volcanoes()
+        alpaca()
     elif playeroptions == '3':
         coast()
     elif playeroptions == '4':
@@ -176,11 +184,178 @@ def fork1():
         time.sleep(2.0)
         fork1()
 
-def volcanoes():
-    pass
+def alpaca():
+    os.system('cls')
+    global alpac
+    alpac = True
+    print('You have arrived at the Alpaca Mountains')
+    print('You see a blood trail leading to the entrance of a barn')
+    print('What do you want to do? Type one of the options')
+    print('[1] Go back to the fork')
+    print('[2] Explore the Mountains')
+    print('[3] Go to the barn')
+    print('[4] View Character')
+    playeroptions = input('> ')
+    if playeroptions == '1':
+        alpac = False
+        fork1()
+    elif playeroptions == '2':
+        pass
+    elif playeroptions == '3':
+        pass
+    elif playeroptions == '4':
+        character()
+    else:
+        print(f'"{playeroptions}" is not an option. Please choose one of the listed options.')
+        time.sleep(2.0)
+        alpaca()
 
 def coast():
+    os.system('cls')
+    global coaststanding
+    coaststanding = True
+    print('You have arrived at the coast.')
+    print('If you continue on the road you will go to the Volcanoes.')
+    print('What do you want to do? Type one of the options')
+    print('[1] Go back to the fork')
+    print('[2] Go to the Volcanoes.')
+    print('[3] View Character')
+    playeroptions = input('> ')
+    if playeroptions == '1':
+        coaststanding = False
+        fork1()
+    elif playeroptions == '2':
+        volcanoes()
+    elif playeroptions == '3':
+        character()
+    else:
+        print(f'"{playeroptions}" is not an option. Please choose one of the listed options.')
+        time.sleep(2.0)
+        coast()
+
+def volcanoes():
+    os.system('cls')
+    global volcan
+    volcan = True
+    print('You are now in the Volcano area')
+    print('You see a strange creature in the distance.')
+    print('What do you want to do? Type one of the options')
+    print('[1] Go back to the coast')
+    print('[2] Explore the area.')
+    print('[3] Approach the strange creature.')
+    print('[4] View Character')
+    playeroptions = input('> ')
+    if playeroptions == '1':
+        volcan = False
+        coast()
+    elif playeroptions == '2':
+        pass
+
+    elif playeroptions == '3':
+        pass
+    elif playeroptions == '4':
+        character()
+    else:
+        print(f'"{playeroptions}" is not an option. Please choose one of the listed options.')
+        time.sleep(2.0)
+        volcanoes()
+
+def daltonroad():
+    os.system('cls')
+    global dalton
+    dalton = True
+    print('You are now on Dalton Road')
+    print('What do you want to do? Type one of the options')
+    print('[1] Go back to Zandaloria')
+    print('[2] Continue on the path.')
+    print('[3] View Character')
+    playeroptions = input('> ')
+    if playeroptions == '1':
+        dalton = False
+        zandaloria()
+    elif playeroptions == '2':
+        fork2()
+    elif playeroptions == '3':
+        character()
+    else:
+        print(f'"{playeroptions}" is not an option. Please choose one of the listed options.')
+        time.sleep(2.0)
+        daltonroad()
+
+def fork2():
+    os.system('cls')
+    global fork2standing
+    fork2standing = True
+    print('You have arrived at a fork')
+    print('The left path leads to the Dark Forest.')
+    print('The right path leads to the Weapon and Item shop.')
+    print('What do you want to do? Type one of the options')
+    print('[1] Go back to Dalton Road')
+    print('[2] Go to the Dark Forest.')
+    print('[3] Go to the Shop')
+    print('[4] View Character')
+    playeroptions = input('> ')
+    if playeroptions == '1':
+        fork2standing = False
+        daltonroad()
+    elif playeroptions == '2':
+        darkforest()
+    elif playeroptions == '3':
+        store()
+    elif playeroptions == '4':
+        character()
+    else:
+        print(f'"{playeroptions}" is not an option. Please choose one of the listed options.')
+        time.sleep(2.0)
+        fork2()
+
+def store():
     pass
+
+def darkforest():
+    os.system('cls')
+    global drkforest
+    drkforest = True
+    print('You are in the Dark Forest.')
+    print('If you continue on the road you will arrive at an abandoned castle.')
+    print('What do you want to do? Type one of the options')
+    print('[1] Go back to the fork')
+    print('[2] Go to the abandoned castle.')
+    print('[3] View Character')
+    playeroptions = input('> ')
+    if playeroptions == '1':
+        drkforest = False
+        fork2()
+    elif playeroptions == '2':
+        abandonedcastle()
+    elif playeroptions == '3':
+        character()
+    else:
+        print(f'"{playeroptions}" is not an option. Please choose one of the listed options.')
+        time.sleep(2.0)
+        darkforest()
+
+def abandonedcastle():
+    os.system('cls')
+    global abandonedcstl
+    abandonedcstl = True
+    print('You have arrived at the entrance of the abandoned castle')
+    print('What do you want to do? Type one of the options')
+    print('[1] Go back to the Forest')
+    print('[2] Enter the Castle')
+    print('[3] View Character')
+    playeroptions = input('> ')
+    if playeroptions == '1':
+        abandonedcstl = False
+        darkforest()
+    elif playeroptions == '2':
+        pass
+    elif playeroptions == '3':
+        character()
+    else:
+        print(f'"{playeroptions}" is not an option. Please choose one of the listed options.')
+        time.sleep(2.0)
+        abandonedcastle()
 
 
 
