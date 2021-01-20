@@ -33,7 +33,7 @@ class Player:
         self.name = name
         self.maxhp = 100
         self.hp = self.maxhp
-        self.items = ['potion']
+        self.items = ['health potion', 'apple']
         self.weapons = []
         self.currentWeap = 'wood sword'
         self.gold = 10
@@ -55,7 +55,7 @@ class Slime:
         self.golddrop = 20
         self.attackdmg = 5
 
-slime1 = Slime('slimer')
+# slime1 = Slime('slimer')
 
 
 
@@ -149,7 +149,7 @@ def griffonroad():
         else:
             print('You have been spotted by a hostile slime. You initiate a fight!')
             time.sleep(1.5)
-            fight()
+            fight(Slime('slimer'))
     elif playeroptions == '3':
         character()
     else:
@@ -359,9 +359,6 @@ def abandonedcastle():
 
 
 
-def items():
-    pass
-
 def character():
     os.system('cls')
     print(f'Name: {player1.name}')
@@ -375,6 +372,34 @@ def character():
     print('[1] Go Back')
     print('[2] Change Weapon')
     print('[3] Use Item')
+    def itemselect():
+        print('\n')
+        if len(player1.items) == 0:
+            print('You do not have any items in your inventory')
+            time.sleep(1.5)
+            character()
+        else:
+            print('Available Items: ')
+            for item in player1.items:
+                print(item)
+            print('Type the name of the item you want to use or type [1] to go back to the Character menu.')
+            playeroptions3 = input('> ')
+            if playeroptions3 == '1':
+                character()
+            elif playeroptions3.lower() in player1.items:
+                player1.items.remove(playeroptions3)
+                print(f'You used a {playeroptions3}')
+                if playeroptions3 == 'health potion':
+                    player1.hp += 10
+                    if player1.hp > player1.maxhp:
+                        player1.hp = player1.maxhp
+                    print('Your HP increased by 10')
+                time.sleep(1.5)
+                character()
+            else:
+                print(f"You don't have a '{playeroptions3}' in your inventory")
+                time.sleep(1.5)
+                itemselect()
     playeroptions = input('> ')
     if playeroptions == '1':
         if zanda == True:
@@ -402,7 +427,9 @@ def character():
                 time.sleep(1.5)
             character()
     elif playeroptions == '3':
-        pass
+        itemselect()
+
+
 
 def treasure():
     global treasuregriffonrd
@@ -416,8 +443,6 @@ def treasure():
         fork1()
 
 
-def daltonroad():
-    pass
 
 def exitgame():
     print('Thanks for playing.')
@@ -425,10 +450,10 @@ def exitgame():
 
 
 
-def fight():
+def fight(mob):
     os.system('cls')
-    print(f'{player1.name}                             {slime1.name}')
-    print(f'HP: {player1.hp}/{player1.maxhp}                      HP:{slime1.hp}/{slime1.maxhp}')
+    print(f'{player1.name}                             {mob.name}')
+    print(f'HP: {player1.hp}/{player1.maxhp}                      HP:{mob.hp}/{mob.maxhp}')
 
     def fightoptions():
         print('[1] Attack')
@@ -436,29 +461,29 @@ def fight():
         print('[3] Run')
         playeroptions = input('> ')
         if playeroptions == '1':
-            print(f'You attack {slime1.name}')
-            slime1.hp -= player1.baseattack
-            if slime1.hp <= 0:
-                print(f'You defeated {slime1.name}')
-                slime1.hp = slime1.maxhp
-                player1.gold += slime1.golddrop
-                print(f'You receive {slime1.golddrop} gold!')
+            print(f'You attack {mob.name}')
+            mob.hp -= player1.baseattack
+            if mob.hp <= 0:
+                print(f'You defeated {mob.name}')
+                mob.hp = mob.maxhp
+                player1.gold += mob.golddrop
+                print(f'You receive {mob.golddrop} gold!')
                 time.sleep(2.0)
                 if zanda == True:
                     zandaloria()
                 elif griffonrd == True:
                     griffonroad()
-            print(f'{slime1.name} attacks you!')
+            print(f'{mob.name} attacks you!')
             dice = random.randrange(1, 6)
             if dice >= 3:
-                player1.hp -= slime1.attackdmg
-                print(f'{slime1.name} does {slime1.attackdmg} damage to you!')
+                player1.hp -= mob.attackdmg
+                print(f'{mob.name} does {mob.attackdmg} damage to you!')
                 time.sleep(2.0)
-                fight()
+                fight(mob)
             else:
-                print(f'{slime1.name} missed his attack!')
+                print(f'{mob.name} missed his attack!')
                 time.sleep(2.0)
-                fight()
+                fight(mob)
         elif playeroptions == '2':
             print(f'These are your available items: {player1.items}')
             print('What item do you want to use?')
@@ -470,7 +495,7 @@ def fight():
                 if player1.hp > player1.maxhp:
                     player1.hp = 100
                 time.sleep(2.0)
-                fight()
+                fight(mob)
         elif playeroptions == '3':
             print('You have escaped successfully!')
             time.sleep(1.5)
