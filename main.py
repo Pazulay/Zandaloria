@@ -44,6 +44,9 @@ class Player:
             self.baseattack = 20
 
 
+#Store
+
+emrldswordcost = 30
 
 #Enemies
 
@@ -310,7 +313,36 @@ def fork2():
         fork2()
 
 def store():
-    pass
+    os.system('cls')
+    global emrldswordcost
+    storeitems = ['health potion', 'emerald sword']
+    print('You have entered the store. What do you want to buy?')
+    print('health potion - 10 gold')
+    print('emerald sword - 30 gold')
+    print('\n')
+    print('[1] Go Back to fork')
+    playeroptions = input('> ')
+    if playeroptions == 'emerald sword':
+        print(f'Are you sure you want to buy the emerald sword?')
+        print('[1] Yes')
+        print('[2] No')
+        playeroptions2 = input('> ')
+        if playeroptions2 == '1' and player1.gold >= emrldswordcost:
+            player1.weapons.append('emerald sword')
+            player1.gold -= emrldswordcost
+            print('The emerald sword has been added to your inventory')
+            store()
+        elif playeroptions2 == '1' and player1.gold < emrldswordcost:
+            print('You do not have enough gold to buy this item')
+            time.sleep(1.5)
+            store()
+        elif playeroptions2 == '2':
+            store()
+    elif playeroptions == '1':
+        fork2()
+
+
+
 
 def darkforest():
     os.system('cls')
